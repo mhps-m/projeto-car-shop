@@ -17,6 +17,14 @@ class CarController {
       next(err);
     }
   }
+
+  public async findAll(
+    _req: Request, 
+    res: Response, 
+  ): Promise<Response<Car[]>> {
+    const cars = await this.service.findAll();
+    return res.status(200).json(cars);
+  }
 }
 
 export default CarController;

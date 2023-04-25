@@ -9,6 +9,11 @@ class CarService {
     const newCar = await this.carODM.create(car);
     return new Car(newCar);
   }
+
+  public async findAll(): Promise<Car[]> {
+    const cars = await this.carODM.findAll();
+    return cars.map((car) => new Car(car));
+  }
 }
 
 export default CarService;
