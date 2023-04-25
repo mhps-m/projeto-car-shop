@@ -10,6 +10,7 @@ export const correctCarInput = {
 export const successfulCarCreation = {
   id: '644846a28fec17ed845b29ca',
   ...correctCarInput,
+  status: false,
 };
 
 export const getCars = [
@@ -21,6 +22,7 @@ export const getCars = [
     buyValue: 65000,
     doorsQty: 4,
     seatsQty: 2, 
+    status: false,
   },
   {
     id: '644846a28fec17es845b22da',
@@ -30,6 +32,7 @@ export const getCars = [
     buyValue: 30000,
     doorsQty: 4,
     seatsQty: 2, 
+    status: false,
   },
   {
     id: '643846a24fed17es845b29qa',
@@ -39,5 +42,6 @@ export const getCars = [
     buyValue: 20000,
     doorsQty: 4,
     seatsQty: 2, 
+    status: false,
   },
 ];
