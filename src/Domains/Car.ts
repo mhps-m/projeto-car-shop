@@ -1,16 +1,18 @@
 import ICar from '../Interfaces/ICar';
 
 class Car {
-  public readonly model: string;
-  public readonly year: number;
-  public readonly color: string;
-  public readonly buyValue: number;
+  protected id?: string;
+  protected readonly model: string;
+  protected readonly year: number;
+  protected readonly color: string;
+  protected readonly buyValue: number;
   private readonly doorsQty: number;
   private readonly seatsQty: number;
-  public readonly status: boolean;
+  protected readonly status: boolean;
 
   constructor(
     { 
+      id,
       model,
       year,
       color,
@@ -20,6 +22,7 @@ class Car {
       status = false, 
     } : ICar,
   ) {
+    this.id = id;
     this.model = model;
     this.year = year;
     this.color = color;
