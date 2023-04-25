@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import CarService from '../Services/CarService';
 import Car from '../Domains/Car';
+import CarService from '../Services/CarService';
 
 class CarController {
-  private carService: CarService = new CarService();
+  private service: CarService = new CarService();
 
   public async create(
     req: Request, 
@@ -11,7 +11,7 @@ class CarController {
     next: NextFunction,
   ): Promise<Response<Car> | void> {
     try {
-      const newCar = await this.carService.create(req.body);
+      const newCar = await this.service.create(req.body);
       return res.status(201).json(newCar);
     } catch (err) {
       next(err);
