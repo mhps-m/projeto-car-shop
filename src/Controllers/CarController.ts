@@ -25,6 +25,20 @@ class CarController {
     const cars = await this.service.findAll();
     return res.status(200).json(cars);
   }
+
+  public async findById(
+    req: Request, 
+    res: Response, 
+    next: NextFunction,
+  ): Promise<Response<Car> | void> {
+    try {
+      const { id } = req.params;
+      const car = await this.service.findById(id);
+      return res.status(200).json(car);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default CarController;
