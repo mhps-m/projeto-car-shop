@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { afterEach } from 'mocha';
 import CarODM from '../../../src/Models/CarODM';
-import { correctCarInput, getCars, successfulCarCreation } from '../Mocks/Car.mock';
+import { carUpdateInput, correctCarInput, getCars, successfulCarCreation } from '../Mocks/Car.mock';
 import ICar from '../../../src/Interfaces/ICar';
 
 describe('Testa a classe de modelo CarODM', function () {
@@ -54,6 +54,19 @@ describe('Testa a classe de modelo CarODM', function () {
           expect(err).to.be.an('Error');
           expect((err as Error).message).to.include('Cast to ObjectId failed');
         }
+      });
+    },
+  );
+
+  describe(
+    'Testa a função "update", permitindo atualizar os dados de um carro cadastrado',
+    function () {
+      it('Atualiza um carro com sucesso', async function () {
+        Sinon.stub(Model, 'findByIdAndUpdate').resolves({ ...successfulCarCreation, status: true });
+
+        const updatedCar = await new CarODM().update(successfulCarCreation.id, carUpdateInput);
+
+        expect(updatedCar).to.deep.equal({ ...successfulCarCreation, status: true });
       });
     },
   );

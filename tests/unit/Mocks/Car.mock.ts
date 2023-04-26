@@ -50,6 +50,15 @@ export const getCars = [
   },
 ];
 
+export const carUpdateInput = { status: true };
+
+export const successfulCarUpdate = {
+  ...successfulCarCreation,
+  status: true,
+};
+
+export const updatedCarInstance = new Car(successfulCarUpdate);
+
 export const getCarsInstance = getCars.map((car) => new Car(car));
 
 export const invalidIdMessage = 'Invalid mongo id';

@@ -4,11 +4,13 @@ import { afterEach, beforeEach } from 'mocha';
 import { Request, Response, request, response } from 'express';
 import { 
   carNotFoundMessage,
+  carUpdateInput,
   correctCarInput,
   getCarsInstance,
   invalidIdMessage,
   newCarCreatedInstance,
   successfulCarCreation,
+  updatedCarInstance,
 } from '../Mocks/Car.mock';
 import CarService from '../../../src/Services/CarService';
 import CarController from '../../../src/Controllers/CarController';
@@ -94,6 +96,47 @@ describe('Testa a classe da camada controller CarController', function () {
         req.params = { id: successfulCarCreation.id };
         
         await new CarController().findById(req, res, next);
+
+        expect(next.calledOnce).to.deep.equal(true);
+        expect(next.lastCall.lastArg).to.be.an('Error');
+        expect(res.status.calledOnceWithExactly(404)).to.deep.equal(true);
+        expect(res.json.calledOnceWithExactly({ message: carNotFoundMessage })).to.deep.equal(true);
+      });
+    },
+  );
+
+  describe(
+    'Testa a função "update", permitindo atualizar um carro já cadastrado',
+    function () {
+      it('Atualiza um carro com sucesso', async function () {
+        Sinon.stub(CarService.prototype, 'update').resolves(updatedCarInstance);
+        req.params = { id: successfulCarCreation.id };
+        req.body = carUpdateInput;
+
+        await new CarController().update(req, res, next);
+
+        expect(res.status.calledWithExactly(200)).to.deep.equal(true);
+        expect(res.json.calledWithExactly(updatedCarInstance)).to.deep.equal(true);
+      });
+
+      it('Retorna erro ao passar um id com formato inválido', async function () {
+        req.params = { id: 'Id_Inválido' };
+        req.body = carUpdateInput;
+        
+        await new CarController().update(req, res, next);
+
+        expect(next.calledOnce).to.deep.equal(true);
+        expect(next.lastCall.lastArg).to.be.an('Error');
+        expect(res.status.calledOnceWithExactly(422)).to.deep.equal(true);
+        expect(res.json.calledOnceWithExactly({ message: invalidIdMessage })).to.deep.equal(true);
+      });
+
+      it('Retorna erro ao não encontrar algum carro', async function () {
+        Sinon.stub(CarService.prototype, 'update').rejects(new Error(carNotFoundMessage));
+        req.params = { id: successfulCarCreation.id };
+        req.body = carUpdateInput;
+        
+        await new CarController().update(req, res, next);
 
         expect(next.calledOnce).to.deep.equal(true);
         expect(next.lastCall.lastArg).to.be.an('Error');
