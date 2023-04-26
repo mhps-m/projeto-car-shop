@@ -5,6 +5,10 @@ import CarODM from '../Models/CarODM';
 
 class CarService {
   private carODM: CarODM = new CarODM();
+
+  private testObjectId(id: string): void {
+    if (!isValidObjectId(id)) throw new Error('Invalid mongo id');
+  }
   
   public async create(car: ICar): Promise<Car> {
     const newCar = await this.carODM.create(car);
@@ -17,13 +21,23 @@ class CarService {
   }
 
   public async findById(id: string): Promise<Car | void> {
-    if (!isValidObjectId(id)) throw new Error('Invalid mongo id');
+    this.testObjectId(id);
 
     const car = await this.carODM.findById(id);
 
     if (!car) throw new Error('Car not found');
 
     return new Car(car);
+  }
+
+  public async update(id: string, data: Partial<ICar>) {
+    this.testObjectId(id);
+
+    const updatedCar = await this.carODM.update(id, data);
+
+    if (!updatedCar) throw new Error('Car not found');
+
+    return new Car(updatedCar);
   }
 }
 
