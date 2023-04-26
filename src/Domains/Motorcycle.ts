@@ -1,12 +1,7 @@
 import IMotorcycle, { MotorcycleCategory } from '../Interfaces/IMotorcycle';
+import Vehicle from './Vehicle';
 
-class Motorcycle {
-  protected id?: string;
-  protected readonly model: string;
-  protected readonly year: number;
-  protected readonly color: string;
-  protected readonly buyValue: number;
-  protected readonly status: boolean;
+class Motorcycle extends Vehicle {
   private readonly category: MotorcycleCategory;
   private readonly engineCapacity: number;
 
@@ -22,14 +17,9 @@ class Motorcycle {
       status = false, 
     } : IMotorcycle,
   ) {
-    this.id = id;
-    this.model = model;
-    this.year = year;
-    this.color = color;
-    this.buyValue = buyValue;
+    super({ id, model, year, color, buyValue, status });
     this.category = category;
     this.engineCapacity = engineCapacity;
-    this.status = status;
   }
 }
 
