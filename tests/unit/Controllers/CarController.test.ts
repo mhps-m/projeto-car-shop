@@ -40,6 +40,18 @@ describe('Testa a classe da camada controller CarController', function () {
       expect(res.json.calledWithMatch(newCarCreatedInstance)).to.deep.equal(true);
       expect(next.notCalled).to.deep.equal(true);
     });
+
+    it('Retorna erro ao passar valores inválidos ou incompletos para a criação', async function () {
+      req.body = {};
+      
+      await new CarController().create(req, res, next);
+
+      expect(next.calledOnce).to.deep.equal(true);
+      expect(next.lastCall.lastArg).to.be.an('Error');
+      expect(res.status.calledOnceWithExactly(400)).to.deep.equal(true);
+      expect(res.json.lastCall.lastArg).to.haveOwnProperty('message');
+      expect(res.json.lastCall.lastArg.message).to.include('Car validation failed');
+    });
   });
 
   describe('Testa a função "findAll", retornando os carros cadastrados', function () {
@@ -72,7 +84,7 @@ describe('Testa a classe da camada controller CarController', function () {
         await new CarController().findById(req, res, next);
 
         expect(next.calledOnce).to.deep.equal(true);
-        expect(next.getCall(0).lastArg).to.be.an('Error');
+        expect(next.lastCall.lastArg).to.be.an('Error');
         expect(res.status.calledOnceWithExactly(422)).to.deep.equal(true);
         expect(res.json.calledOnceWithExactly({ message: invalidIdMessage })).to.deep.equal(true);
       });
@@ -84,7 +96,7 @@ describe('Testa a classe da camada controller CarController', function () {
         await new CarController().findById(req, res, next);
 
         expect(next.calledOnce).to.deep.equal(true);
-        expect(next.getCall(0).lastArg).to.be.an('Error');
+        expect(next.lastCall.lastArg).to.be.an('Error');
         expect(res.status.calledOnceWithExactly(404)).to.deep.equal(true);
         expect(res.json.calledOnceWithExactly({ message: carNotFoundMessage })).to.deep.equal(true);
       });
