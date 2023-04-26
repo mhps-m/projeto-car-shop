@@ -1,5 +1,6 @@
-import { Model, Schema, model, models } from 'mongoose';
+import { Schema } from 'mongoose';
 import ICar from '../Interfaces/ICar';
+import AbstractODM from './AbstractODM';
 
 const carSchema = new Schema<ICar>({
   model: { type: String, required: true },
@@ -11,27 +12,9 @@ const carSchema = new Schema<ICar>({
   status: { type: Boolean, required: false, default: false },
 });
 
-class CarODM {
-  private model: Model<ICar>;
-
+class CarODM extends AbstractODM<ICar> {
   constructor() {
-    this.model = models.Car || model('Car', carSchema);
-  }
-
-  public async create(car: ICar): Promise<ICar> {
-    return this.model.create(car);
-  }
-
-  public async findAll(): Promise<ICar[]> {
-    return this.model.find();
-  }
-
-  public async findById(id: string): Promise<ICar | null> {
-    return this.model.findById(id);
-  }
-
-  public async update(id: string, data: Partial<ICar>): Promise<ICar | null> {
-    return this.model.findByIdAndUpdate(id, data, { new: true });
+    super(carSchema, 'Car');
   }
 }
 
