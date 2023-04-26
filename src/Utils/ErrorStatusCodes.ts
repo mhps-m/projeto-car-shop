@@ -1,6 +1,6 @@
 const ErrorStatusCodes = {
-  'Car not found': 404,
   'Invalid mongo id': 422,
+  'not found': 404,
   'validation failed': 400,
 };
 
