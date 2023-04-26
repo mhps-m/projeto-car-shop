@@ -1,3 +1,5 @@
+import Car from '../../../src/Domains/Car';
+
 export const correctCarInput = { 
   model: 'Chevrolet Onix',
   year: 2021,
@@ -12,6 +14,8 @@ export const successfulCarCreation = {
   ...correctCarInput,
   status: false,
 };
+
+export const newCarCreatedInstance = new Car(successfulCarCreation);
 
 export const getCars = [
   {
@@ -45,3 +49,9 @@ export const getCars = [
     status: false,
   },
 ];
+
+export const getCarsInstance = getCars.map((car) => new Car(car));
+
+export const invalidIdMessage = 'Invalid mongo id';
+
+export const carNotFoundMessage = 'Car not found';

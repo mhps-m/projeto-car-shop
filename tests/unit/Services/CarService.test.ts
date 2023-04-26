@@ -2,7 +2,13 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { afterEach } from 'mocha';
 import CarODM from '../../../src/Models/CarODM';
-import { correctCarInput, getCars, successfulCarCreation } from '../Mocks/Car.mock';
+import { 
+  carNotFoundMessage, 
+  correctCarInput, 
+  getCars,
+  invalidIdMessage, 
+  successfulCarCreation, 
+} from '../Mocks/Car.mock';
 import CarService from '../../../src/Services/CarService';
 import Car from '../../../src/Domains/Car';
 
@@ -46,7 +52,7 @@ describe('Testa a classe de serviço CarService', function () {
           await new CarService().findById('Id inválido');
         } catch (err) {
           expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal('Invalid mongo id');
+          expect((err as Error).message).to.deep.equal(invalidIdMessage);
         }
       });
 
@@ -56,7 +62,7 @@ describe('Testa a classe de serviço CarService', function () {
           await new CarService().findById(successfulCarCreation.id);
         } catch (err) {
           expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal('Car not found');
+          expect((err as Error).message).to.deep.equal(carNotFoundMessage);
         }
       });
     },
