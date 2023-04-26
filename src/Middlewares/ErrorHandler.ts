@@ -8,8 +8,10 @@ class ErrorHandler {
     res: Response,
     _next: NextFunction,
   ): Response {
+    const statusCodeKey = Object.keys(ErrorStatusCodes).find((key) => err.message.includes(key));
+
     return res.status(
-      ErrorStatusCodes[err.message as keyof typeof ErrorStatusCodes] || 500,
+      ErrorStatusCodes[statusCodeKey as keyof typeof ErrorStatusCodes] || 500,
     ).json({ message: err.message });
   }
 }
