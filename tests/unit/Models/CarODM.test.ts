@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { afterEach } from 'mocha';
 import CarODM from '../../../src/Models/CarODM';
-import { carUpdateInput, correctCarInput, getCars, successfulCarCreation } from '../Mocks/Car.mock';
+import { carUpdateInput, correctCarInput, getCars, successfulCarCreation } from '../../mocks/Car.mock';
 import ICar from '../../../src/Interfaces/ICar';
 
 describe('Testa a classe de modelo CarODM', function () {

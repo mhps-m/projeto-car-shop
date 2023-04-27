@@ -10,7 +10,7 @@ import {
   invalidIdMessage, 
   successfulCarCreation,
   successfulCarUpdate, 
-} from '../Mocks/Car.mock';
+} from '../../mocks/Car.mock';
 import CarService from '../../../src/Services/CarService';
 import Car from '../../../src/Domains/Car';
 

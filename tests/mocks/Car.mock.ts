@@ -1,4 +1,4 @@
-import Car from '../../../src/Domains/Car';
+import Car from '../../src/Domains/Car';
 
 export const correctCarInput = { 
   model: 'Chevrolet Onix',

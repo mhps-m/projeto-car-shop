@@ -11,7 +11,7 @@ import {
   newCarCreatedInstance,
   successfulCarCreation,
   updatedCarInstance,
-} from '../Mocks/Car.mock';
+} from '../../mocks/Car.mock';
 import CarService from '../../../src/Services/CarService';
 import CarController from '../../../src/Controllers/CarController';
 import ErrorHandler from '../../../src/Middlewares/ErrorHandler';
