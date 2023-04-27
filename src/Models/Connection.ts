@@ -3,6 +3,8 @@ import 'dotenv/config';
 
 const MONGO_DB_URL = 'mongodb://localhost:27017/CarShop';
 
+mongoose.SchemaTypes.String.cast(false);
+
 const connectToDatabase = (
   mongoDatabaseURI = process.env.MONGO_URI
     || MONGO_DB_URL,
