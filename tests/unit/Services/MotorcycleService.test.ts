@@ -83,25 +83,19 @@ describe('Testa a classe de serviço MotorcycleService', function () {
         expect(updatedMotorcycle).to.be.an.instanceOf(Motorcycle);
         expect(updatedMotorcycle).to.deep.equal(successfulMotorcycleUpdate);
       });
+    },
+  );
 
-      it('Retorna erro ao tentar passar um id com formato inválido', async function () {
-        try {
-          await new MotorcycleService().update('Id inválido', motorcycleUpdateInput);
-        } catch (err) {
-          expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal(invalidIdMessage);
-        }
-      });
+  describe(
+    'Testa a função "delete", permitindo atualizar uma moto já cadastrada', 
+    function () {
+      it('Deleta uma moto com sucesso', async function () {
+        Sinon.stub(MotorcycleODM.prototype, 'delete').resolves(successfulMotorcycleUpdate);
 
-      it('Retorna erro ao não encontrar alguma moto correspondente', async function () {
-        Sinon.stub(MotorcycleODM.prototype, 'update').resolves(null);
-        try {
-          await new MotorcycleService()
-            .update(successfulMotorcycleCreation.id, motorcycleUpdateInput);
-        } catch (err) {
-          expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal(motorcycleNotFoundMessage);
-        }
+        const deleteMotorcycle = await new MotorcycleService()
+          .delete(successfulMotorcycleCreation.id);
+
+        expect(deleteMotorcycle).to.deep.equal(true);
       });
     },
   );

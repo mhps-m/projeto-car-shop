@@ -79,5 +79,18 @@ describe('Testa a classe de modelo MotorcycleODM', function () {
     },
   );
 
+  describe(
+    'Testa a função "delete", permitindo deletar uma moto cadastrada',
+    function () {
+      it('Deleta uma moto com sucesso', async function () {
+        Sinon.stub(Model, 'findByIdAndDelete').resolves(successfulMotorcycleCreation);
+
+        const deletedMotorcycle = await new MotorcycleODM().delete(successfulMotorcycleCreation.id);
+
+        expect(deletedMotorcycle).to.deep.equal(successfulMotorcycleCreation);
+      });
+    },
+  );
+
   afterEach(Sinon.restore);
 });

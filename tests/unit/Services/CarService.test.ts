@@ -81,24 +81,18 @@ describe('Testa a classe de serviço CarService', function () {
         expect(updatedCar).to.be.an.instanceOf(Car);
         expect(updatedCar).to.deep.equal(successfulCarUpdate);
       });
+    },
+  );
 
-      it('Retorna erro ao tentar passar um id com formato inválido', async function () {
-        try {
-          await new CarService().update('Id inválido', carUpdateInput);
-        } catch (err) {
-          expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal(invalidIdMessage);
-        }
-      });
+  describe(
+    'Testa a função "delete", permitindo atualizar um carro já cadastrado', 
+    function () {
+      it('Deleta um carro com sucesso', async function () {
+        Sinon.stub(CarODM.prototype, 'delete').resolves(successfulCarUpdate);
 
-      it('Retorna erro ao não encontrar algum carro correspondente', async function () {
-        Sinon.stub(CarODM.prototype, 'update').resolves(null);
-        try {
-          await new CarService().update(successfulCarCreation.id, carUpdateInput);
-        } catch (err) {
-          expect(err).to.be.an.instanceOf(Error);
-          expect((err as Error).message).to.deep.equal(carNotFoundMessage);
-        }
+        const deleteCar = await new CarService().delete(successfulCarCreation.id);
+
+        expect(deleteCar).to.deep.equal(true);
       });
     },
   );

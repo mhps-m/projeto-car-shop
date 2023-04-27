@@ -3,7 +3,12 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { afterEach } from 'mocha';
 import CarODM from '../../../src/Models/CarODM';
-import { carUpdateInput, correctCarInput, getCars, successfulCarCreation } from '../../mocks/Car.mock';
+import { 
+  carUpdateInput,
+  correctCarInput,
+  getCars,
+  successfulCarCreation,
+} from '../../mocks/Car.mock';
 import ICar from '../../../src/Interfaces/ICar';
 
 describe('Testa a classe de modelo CarODM', function () {
@@ -67,6 +72,19 @@ describe('Testa a classe de modelo CarODM', function () {
         const updatedCar = await new CarODM().update(successfulCarCreation.id, carUpdateInput);
 
         expect(updatedCar).to.deep.equal({ ...successfulCarCreation, status: true });
+      });
+    },
+  );
+
+  describe(
+    'Testa a função "delete", permitindo deletar um carro cadastrado',
+    function () {
+      it('Deleta um carro com sucesso', async function () {
+        Sinon.stub(Model, 'findByIdAndDelete').resolves(successfulCarCreation);
+
+        const deletedCar = await new CarODM().delete(successfulCarCreation.id);
+
+        expect(deletedCar).to.deep.equal(successfulCarCreation);
       });
     },
   );

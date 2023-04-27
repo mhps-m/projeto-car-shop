@@ -12,6 +12,7 @@ import {
   successfulCarCreation,
   updatedCarInstance,
 } from '../../mocks/Car.mock';
+import testStrings from '../../utils/testStrings';
 import CarService from '../../../src/Services/CarService';
 import CarController from '../../../src/Controllers/CarController';
 import ErrorHandler from '../../../src/Middlewares/ErrorHandler';
@@ -80,8 +81,8 @@ describe('Testa a classe da camada controller CarController', function () {
         expect(res.json.calledWithExactly(newCarCreatedInstance)).to.deep.equal(true);
       });
 
-      it('Retorna erro ao passar um id com formato inválido', async function () {
-        req.params = { id: 'Id_Inválido' };
+      it(`${testStrings.invalidIdTestDesc} um carro`, async function () {
+        req.params = { id: testStrings.invalidId };
         
         await new CarController().findById(req, res, next);
 
@@ -91,7 +92,7 @@ describe('Testa a classe da camada controller CarController', function () {
         expect(res.json.calledOnceWithExactly({ message: invalidIdMessage })).to.deep.equal(true);
       });
 
-      it('Retorna erro ao não encontrar algum carro', async function () {
+      it(testStrings.notFoundTestDesc, async function () {
         Sinon.stub(CarService.prototype, 'findById').rejects(new Error(carNotFoundMessage));
         req.params = { id: successfulCarCreation.id };
         
@@ -119,8 +120,8 @@ describe('Testa a classe da camada controller CarController', function () {
         expect(res.json.calledWithExactly(updatedCarInstance)).to.deep.equal(true);
       });
 
-      it('Retorna erro ao passar um id com formato inválido', async function () {
-        req.params = { id: 'Id_Inválido' };
+      it(`${testStrings.invalidIdTestDesc} um carro`, async function () {
+        req.params = { id: testStrings.invalidId };
         req.body = carUpdateInput;
         
         await new CarController().update(req, res, next);
@@ -131,12 +132,52 @@ describe('Testa a classe da camada controller CarController', function () {
         expect(res.json.calledOnceWithExactly({ message: invalidIdMessage })).to.deep.equal(true);
       });
 
-      it('Retorna erro ao não encontrar algum carro', async function () {
+      it(testStrings.notFoundTestDesc, async function () {
         Sinon.stub(CarService.prototype, 'update').rejects(new Error(carNotFoundMessage));
         req.params = { id: successfulCarCreation.id };
         req.body = carUpdateInput;
         
         await new CarController().update(req, res, next);
+
+        expect(next.calledOnce).to.deep.equal(true);
+        expect(next.lastCall.lastArg).to.be.an('Error');
+        expect(res.status.calledOnceWithExactly(404)).to.deep.equal(true);
+        expect(res.json.calledOnceWithExactly({ message: carNotFoundMessage })).to.deep.equal(true);
+      });
+    },
+  );
+
+  describe(
+    'Testa a função "delete", permitindo atualizar um carro já cadastrado',
+    function () {
+      it('Atualiza um carro com sucesso', async function () {
+        Sinon.stub(CarService.prototype, 'delete').resolves(true);
+        req.params = { id: successfulCarCreation.id };
+
+        await new CarController().delete(req, res, next);
+
+        expect(res.status.calledWithExactly(204)).to.deep.equal(true);
+        expect(res.json.calledWithExactly()).to.deep.equal(true);
+      });
+
+      it(`${testStrings.invalidIdTestDesc} um carro`, async function () {
+        req.params = { id: testStrings.invalidId };
+        req.body = carUpdateInput;
+        
+        await new CarController().delete(req, res, next);
+
+        expect(next.calledOnce).to.deep.equal(true);
+        expect(next.lastCall.lastArg).to.be.an('Error');
+        expect(res.status.calledOnceWithExactly(422)).to.deep.equal(true);
+        expect(res.json.calledOnceWithExactly({ message: invalidIdMessage })).to.deep.equal(true);
+      });
+
+      it(testStrings.notFoundTestDesc, async function () {
+        Sinon.stub(CarService.prototype, 'delete').rejects(new Error(carNotFoundMessage));
+        req.params = { id: successfulCarCreation.id };
+        req.body = carUpdateInput;
+        
+        await new CarController().delete(req, res, next);
 
         expect(next.calledOnce).to.deep.equal(true);
         expect(next.lastCall.lastArg).to.be.an('Error');
