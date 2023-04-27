@@ -56,6 +56,20 @@ class AbstractController<T, R> {
       next(err);
     }
   }
+
+  public async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<R> | void> {
+    try {
+      const { id } = req.params;
+      await this.service.delete(id);
+      return res.status(204).json();
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default AbstractController;

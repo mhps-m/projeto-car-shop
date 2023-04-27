@@ -21,6 +21,10 @@ abstract class AbstractService<T, R> {
     if (!isValidObjectId(id)) throw new Error('Invalid mongo id');
   }
 
+  private checkIfObjFound(obj: T | null): void {
+    if (obj === null) throw new Error(`${this.domainName} not found`);
+  }
+
   public async create(obj: T): Promise<R> {
     const newObj = await this.ODM.create(obj);
     return new this.Domain(newObj);
@@ -36,9 +40,9 @@ abstract class AbstractService<T, R> {
 
     const obj = await this.ODM.findById(id);
 
-    if (!obj) throw new Error(`${this.domainName} not found`);
+    this.checkIfObjFound(obj);
 
-    return new this.Domain(obj);
+    return new this.Domain(obj as T); 
   }
 
   public async update(id: string, data: Partial<T>): Promise<R | void> {
@@ -46,9 +50,19 @@ abstract class AbstractService<T, R> {
 
     const updatedObj = await this.ODM.update(id, data);
 
-    if (!updatedObj) throw new Error(`${this.domainName} not found`);
+    this.checkIfObjFound(updatedObj);
 
-    return new this.Domain(updatedObj);
+    return new this.Domain(updatedObj as T);
+  }
+
+  public async delete(id: string): Promise<true | void> {
+    this.testObjectId(id);
+
+    const deletedObj = await this.ODM.delete(id);
+
+    this.checkIfObjFound(deletedObj);
+
+    return true;
   }
 }
 

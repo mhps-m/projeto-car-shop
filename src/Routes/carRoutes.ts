@@ -5,12 +5,19 @@ const carController = new CarController();
 
 const routes = Router();
 
-routes.post('/cars', (req, res, next) => carController.create(req, res, next));
+const carPaths = {
+  BASE: '/cars',
+  ID_PARAM: '/cars/:id',
+};
 
-routes.get('/cars', (req, res) => carController.findAll(req, res));
+routes.post(carPaths.BASE, (req, res, next) => carController.create(req, res, next));
 
-routes.get('/cars/:id', (req, res, next) => carController.findById(req, res, next));
+routes.get(carPaths.BASE, (req, res) => carController.findAll(req, res));
 
-routes.put('/cars/:id', (req, res, next) => carController.update(req, res, next));
+routes.get(carPaths.ID_PARAM, (req, res, next) => carController.findById(req, res, next));
+
+routes.put(carPaths.ID_PARAM, (req, res, next) => carController.update(req, res, next));
+
+routes.delete(carPaths.ID_PARAM, (req, res, next) => carController.delete(req, res, next));
 
 export default routes;
