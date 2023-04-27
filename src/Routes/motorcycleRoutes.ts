@@ -5,7 +5,7 @@ const motorcycleController = new MotorcycleController();
 
 const routes = Router();
 
-const motorcyclePaths = {
+export const motorcyclePaths = {
   BASE: '/motorcycles',
   ID_PARAM: '/motorcycles/:id',
 };

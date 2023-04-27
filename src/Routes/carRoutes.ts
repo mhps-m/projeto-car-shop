@@ -5,7 +5,7 @@ const carController = new CarController();
 
 const routes = Router();
 
-const carPaths = {
+export const carPaths = {
   BASE: '/cars',
   ID_PARAM: '/cars/:id',
 };

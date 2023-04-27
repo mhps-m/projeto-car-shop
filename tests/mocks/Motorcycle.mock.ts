@@ -67,3 +67,5 @@ export const getMotorcyclesInstance = getMotorcycles.map((motorcycle) => (
 export const invalidIdMessage = 'Invalid mongo id';
 
 export const motorcycleNotFoundMessage = 'Motorcycle not found';
+
+export const motorcycleValidationFailMessage = 'Motorcycle validation failed';

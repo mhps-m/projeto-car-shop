@@ -64,3 +64,5 @@ export const getCarsInstance = getCars.map((car) => new Car(car));
 export const invalidIdMessage = 'Invalid mongo id';
 
 export const carNotFoundMessage = 'Car not found';
+
+export const carValidationFailMessage = 'Car validation failed';
