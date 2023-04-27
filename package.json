@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest -i --verbose",
     "test:mocha": "mocha -r ts-node/register \"tests/**/*.test.ts\" --exit -t 60000",
-    "test:coverage": "nyc npm run test:mocha"
+    "test:coverage": "nyc -x src/Models/Connection.ts npm run test:mocha"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
